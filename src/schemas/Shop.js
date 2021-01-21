@@ -1,23 +1,23 @@
 const {GraphQLObjectType,GraphQLID, GraphQLString, GraphQLInt} = require('graphql')
 const GraphQLList = require('graphql').GraphQLList
-const {books, shops} = require('../mock-data/mock-data')
+const {books, users} = require('../mock-data/mock-data')
 
 module.exports = types => new GraphQLObjectType({
-    name: 'User',
+    name: 'Shop',
     fields: () => ({
         id: { type: GraphQLID },
         name: { type: GraphQLString },
-        age: { type: GraphQLInt },
-        books: {
+        rate: { type: GraphQLInt },
+        products: {
             type: new GraphQLList(types.BookType),
-            resolve: ({id}) => {
-                return books.filter(b => b.employee === id)
+            resolve: ({products}) => {
+                return books.filter(b => !!products.find(p => p === b.id))
             }
         },
-        shops: {
-            type: new GraphQLList(types.ShopType),
+        owner: {
+            type: types.UserType,
             resolve: ({id}) => {
-                return shops.filter(s => s.owner === id)
+                return users.find(u => u.id === id)
             }
         }
     })

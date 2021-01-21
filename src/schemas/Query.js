@@ -1,25 +1,53 @@
 const {GraphQLObjectType, GraphQLID, GraphQLSchema} = require('graphql')
-const UserType = require('./User')
-const BookType = require('./Book')
-const {books, users} = require('../mock-data/mock-data')
+const GraphQLList = require('graphql').GraphQLList
+const types = require('./typeBuilder')
+const {books, users, shops} = require('../mock-data/mock-data')
 
 const Query = new GraphQLObjectType({
     name: 'Query',
     fields: {
         user: {
-            type: UserType,
+            type: types.UserType,
             args: {id: { type: GraphQLID }},
-            resolve(parent, args) {
-                return users.find(b => b.id == args.id)
+            resolve: (_, {id}) => {
+                return users.find(b => b.id == id)
             }
         },
         book: {
-            type: BookType,
+            type: types.BookType,
             args: {id: { type: GraphQLID }},
-            resolve(parent, args) {
-                return books.find(u => u.id == args.id)
+            resolve: (_, {id}) => {
+                return books.find(u => u.id == id)
             }
-        }
+        },
+        shop: {
+            type: types.ShopType,
+            args: {id: { type: GraphQLID }},
+            resolve: (_, {id}) => {
+                return shops.find(s => s.id == id)
+            }
+        },
+        users: {
+            type: new GraphQLList(types.UserType),
+            args: {id: { type: GraphQLID }},
+            resolve: () => {
+                return users
+            }
+        },
+        books: {
+            type: new GraphQLList(types.BookType),
+            args: {id: { type: GraphQLID }},
+            resolve: () => {
+                return books
+            }
+        },
+        shops: {
+            type: new GraphQLList(types.ShopType),
+            args: {id: { type: GraphQLID }},
+            resolve: () => {
+                return shops
+            }
+        },
     }
 })
 
