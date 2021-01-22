@@ -1,9 +1,9 @@
-const {GraphQLObjectType, GraphQLID, GraphQLSchema} = require('graphql')
+const {GraphQLObjectType, GraphQLID} = require('graphql')
 const GraphQLList = require('graphql').GraphQLList
 const types = require('./typeBuilder')
 const {books, users, shops} = require('../mock-data/mock-data')
 
-const Query = new GraphQLObjectType({
+module.exports = new GraphQLObjectType({
     name: 'Query',
     fields: {
         user: {
@@ -47,10 +47,6 @@ const Query = new GraphQLObjectType({
             resolve: () => {
                 return shops
             }
-        },
+        }
     }
-})
-
-module.exports = new GraphQLSchema({
-    query: Query
 })
