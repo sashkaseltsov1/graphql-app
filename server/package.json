@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev-server": "SET PORT=3006 && nodemon src/server/app.js"
+    "dev-server": "SET PORT=3006 && ../../node_modules/.bin/nodemon src/server/app.js"
   },
   "repository": {
     "type": "git",
